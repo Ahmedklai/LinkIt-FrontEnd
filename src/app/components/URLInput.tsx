@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Link2 } from "lucide-react";
 import Toggle from "./Toggle";
+import { faLink as Link } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const URLInput = () => {
   const [url, setUrl] = useState("");
@@ -30,7 +31,10 @@ export const URLInput = () => {
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto">
       <div className="relative flex items-center">
-        <Link2 className="absolute left-4 text-gray-400" size={20} />
+        <FontAwesomeIcon
+          className="absolute left-4 text-gray-400 h-5 w-5"
+          icon={Link}
+        />
         <input
           type="url"
           value={url}

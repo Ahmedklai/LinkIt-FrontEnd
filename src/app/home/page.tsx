@@ -9,7 +9,7 @@ const mockEntries = [
       "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://linkly.com/Bn41aCOlnxj",
     clicks: 1313,
     status: "active" as const,
-    date: "Oct - 10 -2023",
+    date: "10/08/2023",
   },
   {
     shortLink: "https://linkly.com/Bn41aCOlnxj",
@@ -18,7 +18,7 @@ const mockEntries = [
       "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://linkly.com/Bn41aCOlnxj",
     clicks: 4313,
     status: "inactive" as const,
-    date: "Oct - 08 -2023",
+    date: "10/08/2023",
   },
 ];
 

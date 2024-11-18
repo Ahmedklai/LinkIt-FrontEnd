@@ -1,6 +1,8 @@
 import {
   faClone as Copy,
   faExternalLink as External,
+  faLink as Link,
+  faLinkSlash as LinkSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -44,7 +46,7 @@ export const URLTable = ({ entries }: URLTableProps) => {
                   <span className="text-gray-700 dark:text-gray-300">
                     {entry.shortLink}
                   </span>
-                  <button className="p-1 hover:text-blue-500 transition-colors">
+                  <button className="rounded-full p-1 bg-[#1C283F] hover:text-blue-500 transition-colors h-9 w-9">
                     <FontAwesomeIcon icon={Copy} size="sm" />
                   </button>
                 </div>
@@ -76,18 +78,33 @@ export const URLTable = ({ entries }: URLTableProps) => {
                 {entry.clicks}
               </td>
               <td className="p-4">
-                <span
-                  className={`px-2 py-1 rounded-full text-xs ${
-                    entry.status === "active"
-                      ? "bg-green-500/20 text-green-500"
-                      : "bg-yellow-500/20 text-yellow-500"
-                  }`}
-                >
-                  {entry.status}
-                </span>
+                <div className="flex">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs ${
+                      entry.status === "active"
+                        ? " text-green-500"
+                        : " text-yellow-500"
+                    }`}
+                  >
+                    {entry.status.toUpperCase()}
+                  </span>
+                  <div
+                    className={`px-2 rounded-full ${
+                      entry.status === "active"
+                        ? "bg-green-500/20 text-green-500"
+                        : "bg-yellow-500/20 text-yellow-500"
+                    }`}
+                  >
+                    {entry.status === "active" ? (
+                      <FontAwesomeIcon icon={Link} size="sm" />
+                    ) : (
+                      <FontAwesomeIcon icon={LinkSlash} size="sm" />
+                    )}
+                  </div>
+                </div>
               </td>
               <td className="p-4 text-gray-700 dark:text-gray-300">
-                {entry.date}
+                {new Date(entry.date).toLocaleDateString()}
               </td>
             </tr>
           ))}
