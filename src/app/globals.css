@@ -2,26 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.light {
+  background-image: url("../assets/bg-light.png"); /* Light mode background */
+  background-position: center;
+  background-size: cover;
+}
+
+.dark {
+  background-image: url("../assets/bg.png"); /* Dark mode background */
+  background-position: center;
+  background-size: cover;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .bg-gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.dot {
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
