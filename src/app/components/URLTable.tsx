@@ -5,18 +5,11 @@ import {
   faLinkSlash as LinkSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-interface URLEntry {
-  shortLink: string;
-  originalLink: string;
-  qrCode: string;
-  clicks: number;
-  status: "active" | "inactive";
-  date: string;
-}
+import { ShortenedUrl } from "../../api/getShortenedUrls";
+import QRCode from "react-qr-code";
 
 interface URLTableProps {
-  entries: URLEntry[];
+  entries: ShortenedUrl[];
 }
 
 export const URLTable = ({ entries }: URLTableProps) => {
@@ -24,7 +17,7 @@ export const URLTable = ({ entries }: URLTableProps) => {
     <div className="w-full overflow-x-auto mt-8">
       <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-gray-200 dark:border-gray-700">
+          <tr className="border-b border-gray-700">
             <th className="p-4 text-gray-600 dark:text-gray-400">Short Link</th>
             <th className="p-4 text-gray-600 dark:text-gray-400">
               Original Link
@@ -39,72 +32,84 @@ export const URLTable = ({ entries }: URLTableProps) => {
           {entries.map((entry, index) => (
             <tr
               key={index}
-              className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/30"
+              className="border-b  border-gray-800 hover:bg-gray-800/30"
             >
               <td className="p-4">
                 <div className="flex items-center space-x-2">
                   <span className="text-gray-700 dark:text-gray-300">
-                    {entry.shortLink}
+                    {entry.shortenedUrl}
                   </span>
-                  <button className="rounded-full p-1 bg-[#1C283F] hover:text-blue-500 transition-colors h-9 w-9">
-                    <FontAwesomeIcon icon={Copy} size="sm" />
+                  <button className="rounded-full p-1 dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9">
+                    <FontAwesomeIcon icon={Copy} className="h-4 w-4" />
                   </button>
                 </div>
               </td>
               <td className="p-4">
                 <div className="flex items-center space-x-2">
                   <img
-                    src={`https://www.google.com/s2/favicons?domain=${entry.originalLink}`}
+                    src={`https://www.google.com/s2/favicons?domain=${entry.originalUrl}`}
                     className="w-4 h-4"
                     alt=""
                   />
                   <span className="text-gray-700 dark:text-gray-300 truncate max-w-xs">
-                    {entry.originalLink}
+                    {entry.originalUrl}
                   </span>
                   <a
-                    href={entry.originalLink}
+                    href={entry.originalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-500"
                   >
-                    <FontAwesomeIcon icon={External} size="sm" />
+                    <FontAwesomeIcon icon={External} className="h-4 w-4" />
                   </a>
                 </div>
               </td>
-              <td className="p-4">
-                <img src={entry.qrCode} alt="QR Code" className="w-8 h-8" />
+              <td className="p-1">
+                <div className="flex h-full justify-center items-center">
+                  <QRCode
+                    style={{ height: 48, width: 48 }}
+                    value={entry.shortenedUrl}
+                    viewBox={`0 0 48 48`}
+                  />
+                </div>
               </td>
               <td className="p-4 text-gray-700 dark:text-gray-300">
                 {entry.clicks}
               </td>
               <td className="p-4">
-                <div className="flex">
+                <div
+                  className={`flex rounded-full px-2 items-center gap-1 w-fit ${
+                    entry.isActive
+                      ? "bg-green-500 dark:bg-transparent"
+                      : "bg-yellow-500 dark:bg-transparent"
+                  }`}
+                >
                   <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      entry.status === "active"
-                        ? " text-green-500"
-                        : " text-yellow-500"
+                    className={` rounded-full text-xs leading-none ${
+                      entry.isActive
+                        ? " dark:text-green-500 text-green-900"
+                        : " dark:text-yellow-500 text-yellow-900"
                     }`}
                   >
-                    {entry.status.toUpperCase()}
+                    {entry.isActive ? "Active" : "Inactive"}
                   </span>
                   <div
-                    className={`px-2 rounded-full ${
-                      entry.status === "active"
-                        ? "bg-green-500/20 text-green-500"
-                        : "bg-yellow-500/20 text-yellow-500"
+                    className={`rounded-full ${
+                      entry.isActive
+                        ? " dark:text-green-500 text-green-900"
+                        : " dark:text-yellow-500 text-yellow-900"
                     }`}
                   >
-                    {entry.status === "active" ? (
-                      <FontAwesomeIcon icon={Link} size="sm" />
+                    {entry.isActive ? (
+                      <FontAwesomeIcon icon={Link} className="h-4 w-4" />
                     ) : (
-                      <FontAwesomeIcon icon={LinkSlash} size="sm" />
+                      <FontAwesomeIcon icon={LinkSlash} className="h-4 w-4" />
                     )}
                   </div>
                 </div>
               </td>
               <td className="p-4 text-gray-700 dark:text-gray-300">
-                {new Date(entry.date).toLocaleDateString()}
+                {new Date(entry.createdAt).toLocaleDateString()}
               </td>
             </tr>
           ))}

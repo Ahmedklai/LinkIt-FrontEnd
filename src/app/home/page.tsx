@@ -1,28 +1,10 @@
-import { URLInput } from "@/components/URLInput";
 import { URLTable } from "@/components/URLTable";
+import { getShortenedUrls, ShortenedUrl } from "../../api/getShortenedUrls";
+import URLInput from "@/components/URLInput";
 
-const mockEntries = [
-  {
-    shortLink: "https://linkly.com/Bn41aCOlnxj",
-    originalLink: "https://www.twitter.com/tweets/BerelCoihu/",
-    qrCode:
-      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://linkly.com/Bn41aCOlnxj",
-    clicks: 1313,
-    status: "active" as const,
-    date: "10/08/2023",
-  },
-  {
-    shortLink: "https://linkly.com/Bn41aCOlnxj",
-    originalLink: "https://www.youtube.com/watch?v=8JZ7mHOlXuk",
-    qrCode:
-      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://linkly.com/Bn41aCOlnxj",
-    clicks: 4313,
-    status: "inactive" as const,
-    date: "10/08/2023",
-  },
-];
+export default async function HomePage() {
+  const shortenedUrls = await getShortenedUrls();
 
-export default function HomePage() {
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
@@ -47,7 +29,7 @@ export default function HomePage() {
         <span> to enjoy Unlimited usage</span>
       </div>
 
-      <URLTable entries={mockEntries} />
+      <URLTable entries={shortenedUrls} />
 
       <div className="text-center mt-8">
         <a href="/register" className="text-blue-500 hover:underline">
