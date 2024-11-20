@@ -12,7 +12,7 @@ export type ShortenedUrl = {
 
 export const getShortenedUrls = async (): Promise<ShortenedUrl[]> => {
   try {
-    const response = await fetch(BASE_API_PATH + "/shorten/");
+    const response = await fetch(BASE_API_PATH + "/");
 
     if (!response.ok) {
       throw new Error("Failed to fetch data from server");

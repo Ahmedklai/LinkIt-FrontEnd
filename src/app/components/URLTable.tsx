@@ -36,9 +36,12 @@ export const URLTable = ({ entries }: URLTableProps) => {
             >
               <td className="p-4">
                 <div className="flex items-center space-x-2">
-                  <span className="text-gray-700 dark:text-gray-300">
+                  <a
+                    href={entry.shortenedUrl}
+                    className="text-gray-700 dark:text-gray-300"
+                  >
                     {entry.shortenedUrl}
-                  </span>
+                  </a>
                   <button className="rounded-full p-1 dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9">
                     <FontAwesomeIcon icon={Copy} className="h-4 w-4" />
                   </button>

@@ -17,7 +17,7 @@ export const createNewUrl = async (
   | null
 > => {
   try {
-    const response = await fetch(`${BASE_API_PATH}/shorten/`, {
+    const response = await fetch(`${BASE_API_PATH}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
