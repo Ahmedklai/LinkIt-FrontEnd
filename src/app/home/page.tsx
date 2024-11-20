@@ -1,9 +1,37 @@
+"use client";
+
 import { URLTable } from "@/components/URLTable";
 import { getShortenedUrls, ShortenedUrl } from "../../api/getShortenedUrls";
 import URLInput from "@/components/URLInput";
+import { useEffect, useState } from "react";
+import { createNewUrl, CreateNewUrlPayload } from "../../api/createNewUrl";
 
-export default async function HomePage() {
-  const shortenedUrls = await getShortenedUrls();
+export default function HomePage() {
+  const [shortenedUrls, setShortenedUrls] = useState<ShortenedUrl[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchShortenedUrls = async () => {
+    setIsLoading(true);
+    const urls = await getShortenedUrls();
+    setShortenedUrls(urls);
+    setIsLoading(false);
+  };
+
+  const createNew = async (url: CreateNewUrlPayload) => {
+    const newUrlResponse = await createNewUrl(url);
+
+    if (newUrlResponse?.success) {
+      setShortenedUrls((prev) => [newUrlResponse.url, ...prev]);
+    }
+
+    return {
+      success: newUrlResponse?.success ?? false,
+    };
+  };
+
+  useEffect(() => {
+    fetchShortenedUrls();
+  }, []);
 
   return (
     <main className="container mx-auto px-4 py-12">
@@ -17,7 +45,7 @@ export default async function HomePage() {
         </p>
       </div>
 
-      <URLInput />
+      <URLInput createNewUrl={createNew} />
 
       <div className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
         <span>You can create </span>
@@ -29,7 +57,7 @@ export default async function HomePage() {
         <span> to enjoy Unlimited usage</span>
       </div>
 
-      <URLTable entries={shortenedUrls} />
+      <URLTable entries={shortenedUrls} isLoading={isLoading} />
 
       <div className="text-center mt-8">
         <a href="/register" className="text-blue-500 hover:underline">

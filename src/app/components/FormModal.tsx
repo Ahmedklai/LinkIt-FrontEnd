@@ -7,13 +7,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { createNewUrl } from "../../api/createNewUrl";
+import { CreateNewUrlPayload } from "../../api/createNewUrl";
 
 const FormModal: React.FC<{
   isOpen: boolean;
   onRequestClose: () => void;
   initialUrl: string;
-}> = ({ isOpen, onRequestClose, initialUrl }) => {
+  createNewUrl: (url: CreateNewUrlPayload) => Promise<{ success: boolean }>;
+}> = ({ isOpen, onRequestClose, initialUrl, createNewUrl }) => {
   useEffect(() => {
     console.log(initialUrl);
     if (initialUrl && isOpen) {
@@ -159,8 +160,10 @@ const FormModal: React.FC<{
       });
 
       if (request?.success) {
-        reset();
-        onRequestClose();
+        setTimeout(() => {
+          reset();
+          onRequestClose();
+        }, 1000);
       }
     } catch (error) {}
   };
