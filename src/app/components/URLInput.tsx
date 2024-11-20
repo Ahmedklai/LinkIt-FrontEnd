@@ -5,8 +5,13 @@ import FormModal from "./FormModal";
 import Toggle from "./Toggle";
 import { faLink as Link } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CreateNewUrlPayload } from "../../api/createNewUrl";
 
-const URLInput: React.FC = () => {
+type Props = {
+  createNewUrl: (url: CreateNewUrlPayload) => Promise<{ success: boolean }>;
+};
+
+const URLInput = ({ createNewUrl }: Props) => {
   const [url, setUrl] = useState("");
   const [autoPaste, setAutoPaste] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +61,7 @@ const URLInput: React.FC = () => {
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         initialUrl={url}
+        createNewUrl={createNewUrl}
       />
     </div>
   );

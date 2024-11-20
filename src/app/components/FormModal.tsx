@@ -7,15 +7,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { createNewUrl } from "../../api/createNewUrl";
+import { CreateNewUrlPayload } from "../../api/createNewUrl";
 
 const FormModal: React.FC<{
   isOpen: boolean;
   onRequestClose: () => void;
   initialUrl: string;
-}> = ({ isOpen, onRequestClose, initialUrl }) => {
-  const [defaultUrl, setDefaultUrl] = useState(initialUrl);
-
+  createNewUrl: (url: CreateNewUrlPayload) => Promise<{ success: boolean }>;
+}> = ({ isOpen, onRequestClose, initialUrl, createNewUrl }) => {
   const formSchema = useMemo(() => {
     return z.object({
       originalUrl: z.string().url(),
@@ -60,8 +59,10 @@ const FormModal: React.FC<{
       });
 
       if (request?.success) {
-        reset();
-        onRequestClose();
+        setTimeout(() => {
+          reset();
+          onRequestClose();
+        }, 1000);
       }
     } catch (error) {}
   };
@@ -92,7 +93,6 @@ const FormModal: React.FC<{
               //   onChange: (e) => setDefaultUrl(e.target.value),
               // })}
               // !FIX
-              defaultValue={defaultUrl}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-full shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
             {errors.originalUrl && (

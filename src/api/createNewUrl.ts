@@ -1,7 +1,7 @@
 import { BASE_API_PATH } from "@/constants";
-import { ShortenedUrl } from "./getShortenedUrls";
+import { getShortenedUrls, ShortenedUrl } from "./getShortenedUrls";
 
-type FormValues = {
+export type CreateNewUrlPayload = {
   originalUrl: string;
   tags?: string[] | null;
   securityCode?: string | null;
@@ -9,13 +9,11 @@ type FormValues = {
 };
 
 export const createNewUrl = async (
-  data: FormValues
-): Promise<
-  | (ShortenedUrl & {
-      success: boolean;
-    })
-  | null
-> => {
+  data: CreateNewUrlPayload
+): Promise<{
+  success: boolean;
+  url: ShortenedUrl;
+} | null> => {
   try {
     const response = await fetch(`${BASE_API_PATH}/`, {
       method: "POST",
@@ -31,7 +29,7 @@ export const createNewUrl = async (
 
     return {
       success: true,
-      ...(await response.json()),
+      url: await response.json(),
     };
   } catch (error) {
     console.error("Failed to fetch data from server", error);
