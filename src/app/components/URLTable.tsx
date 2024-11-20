@@ -1,3 +1,5 @@
+"use client";
+
 import {
   faClone as Copy,
   faExternalLink as External,
@@ -13,6 +15,9 @@ interface URLTableProps {
 }
 
 export const URLTable = ({ entries }: URLTableProps) => {
+  const onPressCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
   return (
     <div className="w-full overflow-x-auto mt-8">
       <table className="w-full text-left">
@@ -42,7 +47,10 @@ export const URLTable = ({ entries }: URLTableProps) => {
                   >
                     {entry.shortenedUrl}
                   </a>
-                  <button className="rounded-full p-1 dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9">
+                  <button
+                    onClick={() => onPressCopy(entry.shortenedUrl)}
+                    className="rounded-full p-1 dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9"
+                  >
                     <FontAwesomeIcon icon={Copy} className="h-4 w-4" />
                   </button>
                 </div>
