@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import FormModal from "./FormModal";
+import FormModal from "./LinkShortnerModalHome";
 import Toggle from "./Toggle";
 import { faLink as Link } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
