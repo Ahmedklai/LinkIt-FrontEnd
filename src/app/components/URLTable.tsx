@@ -53,16 +53,13 @@ export const URLTable = ({ entries, isLoading }: URLTableProps) => {
               >
                 <td className="p-4">
                   <div className="flex items-center space-x-2">
-                    <div className="flex flex-col">
-                      <a
-                        href={entry.shortenedUrl}
-                        target="_blank"
-                        className="text-gray-700 dark:text-gray-300"
-                      >
-                        {entry.shortenedUrl}
-                      </a>
-                      <span>{entry.id}</span>
-                    </div>
+                    <a
+                      href={entry.shortenedUrl}
+                      target="_blank"
+                      className="text-gray-700 dark:text-gray-300"
+                    >
+                      {entry.shortenedUrl}
+                    </a>
                     <button
                       onClick={() => onPressCopy(entry.shortenedUrl)}
                       className="rounded-full p-1 dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9"
