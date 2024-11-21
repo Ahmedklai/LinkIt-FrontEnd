@@ -4,6 +4,7 @@ import {
   faLink as Link,
   faLinkSlash as LinkSlash,
   faSpinner as LoadingSpinner,
+  faChartLine as ChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ShortenedUrl } from "../../api/getShortenedUrls";
@@ -66,6 +67,14 @@ export const URLTable = ({ entries, isLoading }: URLTableProps) => {
                     >
                       <FontAwesomeIcon icon={Copy} className="h-4 w-4" />
                     </button>
+
+                    <a
+                      href={`/insights/${entry.id}`}
+                      target="_blank"
+                      className="rounded-full dark:bg-[#252626] hover:text-blue-500 transition-colors h-9 w-9 flex justify-center items-center"
+                    >
+                      <FontAwesomeIcon icon={ChartLine} className="h-4 w-4" />
+                    </a>
                   </div>
                 </td>
                 <td className="p-4">
