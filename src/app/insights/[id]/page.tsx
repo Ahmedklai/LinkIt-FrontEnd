@@ -1,14 +1,18 @@
-import { Metadata } from "next";
-import { getUrlInsights } from "../../../api/getUrlInsights";
 import AnalyticsView from "./AnalyticsView";
+import { getUrlInsights } from "../../../api/getUrlInsights";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: { id: string };
-}
+import type { Metadata, ResolvingMetadata } from "next";
+import { getShortenedUrls } from "../../../api/getShortenedUrls";
+
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const insights = await getUrlInsights(params.id);
+  const id = (await params).id;
+  const insights = await getUrlInsights(id);
 
   return {
     title: `Analytics for ${insights?.shortener.shortenedUrl}`,
@@ -16,11 +20,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function AnalyticsPage({ params }: Props) {
-  const insights = await getUrlInsights(params.id);
+export async function generateStaticParams() {
+  const urls = await getShortenedUrls();
+  return urls.map((url) => ({
+    id: url.id,
+  }));
+}
+
+export default async function InsightsPage({ params }: Props) {
+  const id = (await params).id;
+  const insights = await getUrlInsights(id);
 
   if (!insights) {
-    return notFound();
+    notFound();
   }
 
   return <AnalyticsView insights={insights} />;

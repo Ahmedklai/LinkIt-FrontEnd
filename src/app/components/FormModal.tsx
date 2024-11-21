@@ -182,7 +182,7 @@ const FormModal: React.FC<{
         className="px-4 py-10 lg:px-10 w-full rounded-2xl flex flex-col lg:flex-row gap-6 justify-between h-full"
       >
         {/* Left Side Form */}
-        <div className="w-full lg:w-[65%] flex flex-col gap-4">
+        <div className="w-full lg:w-[60%] flex flex-col gap-4">
           {/* Original URL */}
           <div className="form-group">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -506,11 +506,14 @@ const FormModal: React.FC<{
             ) : (
               "Create URL"
             )}
+            {isSubmitSuccessful && (
+              <FontAwesomeIcon icon={faCheck} className="ml-2" />
+            )}
           </button>
         </div>
 
         {/* Right Side Preview */}
-        <div className="w-full lg:w-[35%] flex flex-col gap-6 items-center justify-center">
+        <div className="h-full w-[40%] flex-col gap-6 items-center justify-center hidden lg:flex">
           <div className="border rounded-lg p-4 w-full max-w-md bg-gray-100 dark:bg-gray-800">
             <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
               {customTitle || openGraphData.title || "Preview Title"}

@@ -10,6 +10,16 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "LinkIt - URL Shortener",
   description: "Shorten your long URLs efficiently",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+    other: {
+      rel: "mask-icon",
+      url: "/logo.svg",
+      color: "#000000",
+    },
+  },
 };
 
 export default function RootLayout({
@@ -19,6 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href={"../assets/logo.svg"} type="image/svg+xml" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <div className="min-h-screen  text-gray-900 dark:text-gray-100 transition-colors">
