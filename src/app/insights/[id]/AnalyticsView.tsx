@@ -8,11 +8,9 @@ interface AnalyticsViewProps {
   insights: Insights;
 }
 
-// Client Component
 export default function AnalyticsView({ insights }: AnalyticsViewProps) {
   const { clicks, shortener } = insights;
 
-  // Process data for different stats
   const stats = {
     countries: Object.entries(
       clicks.reduce((acc: Record<string, number>, click) => {
@@ -55,7 +53,6 @@ export default function AnalyticsView({ insights }: AnalyticsViewProps) {
   return (
     <div className="min-h-screen  p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Header */}
         <div>
           <div className="flex items-center gap-2 text-gray-600 mb-2">
             <FontAwesomeIcon icon={Link} className="w-4 h-4" />
@@ -64,7 +61,7 @@ export default function AnalyticsView({ insights }: AnalyticsViewProps) {
           <h1 className="text-4xl font-bold">{shortener.clicks}</h1>
         </div>
 
-        <div className="bg-blue-50 bg-opacity-40 rounded-lg p-6 shadow-sm">
+        <div className="bg-blue-50 bg-opacity-70 rounded-lg p-6 shadow-sm">
           <ClicksChart clicks={clicks} />
         </div>
 

@@ -27,7 +27,19 @@ export interface Shortener {
   tags: string[];
 }
 
-const locations = ["US", "GB", "CA", "AU", "IN", "PK", "DE", "TUN"];
+const locations = [
+  "US",
+  "GB",
+  "CA",
+  "AU",
+  "IN",
+  "PK",
+  "DE",
+  "TUN",
+  "US",
+  "GB",
+  "DE",
+]; // to simulate numbers with a bigger difference
 const deviceTypes = ["Desktop", "iPhone", "Android", "Tablet"];
 const referrers = [
   "https://google.com",
@@ -53,9 +65,9 @@ const generateRandomClicks = (count: number): Click[] => {
 
 const mockResponse: Insights = {
   id: "1",
-  clicks: generateRandomClicks(100),
+  clicks: generateRandomClicks(159),
   shortener: {
-    clicks: 100,
+    clicks: 159,
     createdAt: new Date(),
     expiryDate: null,
     id: "1",

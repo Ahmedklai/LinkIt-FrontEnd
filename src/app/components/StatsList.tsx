@@ -9,32 +9,42 @@ interface StatsListProps {
 }
 
 export function StatsList({ title, data, total }: StatsListProps) {
-  console.log({ data, total });
+  const bgByIndex = (index: number) => {
+    const bgColors = [
+      "bg-blue-100",
+      "bg-red-100",
+      "bg-green-100",
+      "bg-yellow-100",
+      "bg-indigo-100",
+      "bg-pink-100",
+      "bg-purple-100",
+      "bg-gray-100",
+    ];
+    return bgColors[index % bgColors.length];
+  };
+
+  const maxValue = Math.max(...data?.map((item) => item.value));
+
   return (
-    <div className="bg-blue-50 bg-opacity-40 rounded-lg p-6">
+    <div className="bg-blue-50 bg-opacity-70 rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          {title}
-        </h3>
-        <span className="text-sm text-gray-700 dark:text-gray-300">
-          % CLICKS
-        </span>
+        <h3 className="text-sm font-medium text-gray-700 ">{title}</h3>
+        <span className="text-sm text-gray-700 ">% CLICKS</span>
       </div>
       <div className="space-y-3">
-        {data.map((item) => {
-          const percentage = Math.round((item.value / total) * 100);
+        {data.map((item, index) => {
+          const percentageForWidth = Math.round((item.value / maxValue) * 100);
+          const percentageValue = Math.round((item.value / total) * 100);
 
           return (
             <div key={item.label} className="relative">
-              {/* Background bar */}
               <div
-                className="absolute inset-0 bg-blue-50 rounded"
+                className={`absolute inset-0 ${bgByIndex(index)} rounded`}
                 style={{
-                  width: `${percentage}%`,
+                  width: `${percentageForWidth}%`,
                   transition: "width 0.3s ease-in-out",
                 }}
               />
-              {/* Content */}
               <div className="relative flex items-center justify-between p-2">
                 <div className="flex items-center gap-2">
                   {item.icon && (
@@ -45,9 +55,11 @@ export function StatsList({ title, data, total }: StatsListProps) {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600">{item.value}</span>
-                  <span className="text-sm text-gray-400 w-8">
-                    {percentage}%
+                  <span className="text-sm text-gray-700 dark:text-slate-800">
+                    {item.value}
+                  </span>
+                  <span className="text-sm text-gray-500 w-8 dark:text-gray-900 ">
+                    {percentageValue}%
                   </span>
                 </div>
               </div>

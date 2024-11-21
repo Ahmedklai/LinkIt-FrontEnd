@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { format } from "date-fns";
+import { format, startOfHour } from "date-fns";
 import { Click } from "../../api/getUrlInsights";
 
 interface ClicksChartProps {
@@ -17,18 +17,31 @@ interface ClicksChartProps {
 }
 
 export function ClicksChart({ clicks }: ClicksChartProps) {
-  // Process clicks into hourly data points
   const hourlyData = clicks
-    .reduce((acc: any[], click) => {
-      const hour = format(new Date(click.timestamp), "h:mm a");
-      const existing = acc.find((d) => d.hour === hour);
-      if (existing) {
-        existing.clicks++;
-      } else {
-        acc.push({ hour, clicks: 1, timestamp: new Date(click.timestamp) });
-      }
-      return acc;
-    }, [])
+    .reduce(
+      (
+        acc: Array<{
+          clicks: number;
+          hour: string;
+          timestamp: Date;
+        }>,
+        click
+      ) => {
+        const hour = format(startOfHour(new Date(click.timestamp)), "h:mm a");
+        const existing = acc.find((d) => d.hour === hour);
+        if (existing) {
+          existing.clicks++;
+        } else {
+          acc.push({
+            hour,
+            clicks: 1,
+            timestamp: startOfHour(new Date(click.timestamp)),
+          });
+        }
+        return acc;
+      },
+      []
+    )
     .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 
   return (
@@ -41,14 +54,14 @@ export function ClicksChart({ clicks }: ClicksChartProps) {
               <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="hour" stroke="#94a3b8" fontSize={12} />
-          <YAxis stroke="#94a3b8" fontSize={12} />
+          <XAxis dataKey="hour" stroke="#34495e" fontSize={12} />
+          <YAxis stroke="#34495e" fontSize={12} />
           <Tooltip
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
                 return (
                   <div className="bg-white p-2 shadow-lg rounded-lg border">
-                    <p className="text-sm font-medium">
+                    <p className="text-sm text-gray-700 font-medium">
                       {payload[0].payload.hour}
                     </p>
                     <p className="text-sm text-blue-600">
