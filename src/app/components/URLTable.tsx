@@ -98,11 +98,12 @@ export const URLTable = ({ entries, isLoading }: URLTableProps) => {
                   </div>
                 </td>
                 <td className="p-1">
-                  <div className="flex h-full justify-center items-center">
+                  <div className="flex h-full justify-center items-center  ">
                     <QRCode
                       style={{ height: 48, width: 48 }}
                       value={entry.shortenedUrl}
                       viewBox={`0 0 48 48`}
+                      className="cursor-none hover:scale-[3] transition-all duration-500 hover:bg-white hover:p-1 hover:rounded"
                     />
                   </div>
                 </td>
